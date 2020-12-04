@@ -1,11 +1,11 @@
 sudo: required
-language: node.js
+language: node_js
 node_js:
-  - "g"
+  - "9"
 services:
   - docker
 before_install:
-  - wget-q0- https://toolbelt.heroku.com/install.sh | sh
+  - wget-qO- https://toolbelt.heroku.com/install.sh | sh
 install:
   - npm install
 script:
