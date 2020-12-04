@@ -2,7 +2,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var DataStore = require('nedb');
 
-var port = 3000;
+var port = (process.env.PORT || 3000);
 var BASE_API_PATH = "/api/v1";
 var DB_FILE_NAME = __dirname + "/contacts.json";
 
@@ -19,10 +19,12 @@ var db=new DataStore({
 app.get("/", (req, res)=>{
     res.send("<html><body><h1>My server</h1></body></html>")
 });
-app.get(BASE_API_PATH + "/contacts", (req,res)=>{
-    console.log(Date() + "-GET /contacts");
-    db.find({},(err, contacts) => {
-        if(err) {
+
+app.get(BASE_API_PATH + "/contacts", (req,res) => {
+    console.log(Date() + " - GET /contacts");
+
+    db.find({}, (err, contacts) => {
+        if (err) {
             console.log(Date() + " - " + err);
             res.sendStatus(500);
         } else {
@@ -32,8 +34,9 @@ app.get(BASE_API_PATH + "/contacts", (req,res)=>{
             }));
         }
     });
+});
 
-app.post(BASE_API_PATH + "/contacts", (req, res) =>{
+app.post(BASE_API_PATH + "/contacts", (req, res) => {
     console.log(Date() + "-POST /contacts");
     var contact = req.body;
     db.insert(contact, (err) =>{
@@ -44,7 +47,6 @@ app.post(BASE_API_PATH + "/contacts", (req, res) =>{
             res.sendStatus(201);
         }
     });
-    res.sendStatus(201);
 
 });
 
